@@ -71,6 +71,6 @@ class router(basis):
         if cell.stopped:
             return
         #============================
-        while not cell.stopped:
+        while not cell.stopped and handler != None:
             handler = self._step(cell, handler)
         

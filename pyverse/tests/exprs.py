@@ -1,4 +1,4 @@
-__all__ = ["iterable", "nextable", "forable"]
+__all__ = ["iterable", "nextable", "forable", "instanceof", "withable", "awithable", "isinrange"]
 
 from typing import overload
 
@@ -57,3 +57,12 @@ def awithable(elem):
     Returns True if element is able to use <async with elem as var:> and vice-versa
     """
     return hasattr(elem, "__aenter__") and hasattr(elem, "__aexit__")
+
+
+def isinrange(_list, index):
+    "Tests is index in range of a list or tuple"
+    try:
+        _list[index]
+        return True
+    except IndexError:
+        return False
