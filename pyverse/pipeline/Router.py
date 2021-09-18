@@ -65,13 +65,12 @@ class router(basis):
     
     
     def _launch(self, cell):
-        runs = True
         if not callable(self.pointer):
             return
         handler = self.pointer(cell, self.staticmeta)
         if cell.stopped:
             return
         #============================
-        while runs:
+        while not cell.stopped:
             handler = self._step(cell, handler)
         
