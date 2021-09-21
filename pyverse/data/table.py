@@ -37,7 +37,7 @@ class ColumnData(basis):
 
 class Table(basis):
     """Contains columns and rows. You can use functions as values and get items by .getsmart, function will be called
-    with single ergument, link to table object. That allows dynamic calculated values, like summary."""
+    with 3 arguments, link to table object, indexes for row and column. That allows dynamic calculated values, like summary."""
     def __init__(self, *columns: Column):
         super(Table, self).__init__()
         self.columns = [*columns]
@@ -85,7 +85,7 @@ class Table(basis):
     
     def getsmart(self, row, col):
         item = self.getitem(row, col)
-        return item if not callable(item) else item(self)
+        return item if not callable(item) else item(self, row, col)
 
     def __getitem__(self, index):
         return self.getcolumn(index)
