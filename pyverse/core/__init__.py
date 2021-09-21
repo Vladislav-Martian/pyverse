@@ -1,5 +1,5 @@
 __all__ = ['attribute', 'w', 'basis', 'throws', 'isthrows',
-           'trycall', 'Operators', 'calloperators', 'functor', 'reprint', "safe"]
+           'trycall', 'Operators', 'calloperators', 'functor', 'reprint', "safe", "copyAllProps"]
 
 from typing import Callable, overload
 from enum import IntFlag, auto
@@ -239,3 +239,13 @@ def functor(func: Callable):
     def wrapper(*args, **kwargs):
         return func(func, *args, **kwargs)
     return wrapper
+
+
+##########################################################################
+# Dangerous
+def copyAllProps(dest, source):
+    "Forces object to clone all properties, not started from duble underscore '__'"
+    dd = source.__dict__
+    for key, value in dd.items():
+        if not key.startswith('__'):
+            setattr(dest, key, value)
