@@ -1,5 +1,7 @@
+__all__ = ["smartlist", "handle", "objectAddress"]
 
 from typing import Callable
+from pyverse.core import basis, unibox
 
 
 class smartlist(list):
@@ -147,3 +149,58 @@ class smartlist(list):
     def slicedend(self, end):
         return smartlist(self[:end])
 
+
+class handle(basis):
+    """Line of handlers for an object"""
+
+    def __init__(self):
+        super(objectAddress, self).__init__()
+        self.way = []
+    
+    def __call__(self, callback):
+        "callback uses one argument, link to current values."
+        self.way.append(callback)
+    
+    def use(self, data):
+        if isinstance(data, unibox):
+            return self._use(data)
+        return self._use(unibox(data))
+
+    def _use(self, box):
+        i = -1 # 0 on first iteration
+        for cb in self.way:
+            i += 1
+            box["Step"] = i
+            if not box.stopped:
+                try:
+                    cb(box)
+                except Exception as e:
+                    if not "errors" in box:
+                        box["errors"] = []
+                    box["errors"].append(e)
+            return box
+        return box
+
+
+class objectAddress(basis):
+    """Saves linear cobination of keys and indexes, and callbacks for any object. Used for deep structures,
+    accessed wit [] operator"""
+    def __init__(self):
+        super(objectAddress, self).__init__()
+        self.way = []
+    
+    def __call__(self, callback):
+        "callback uses one argument, link to current values."
+        self.way.append(callback)
+    
+    def __getitem__(self, key):
+        "callback uses one argument, link to current values."
+        self.way.append(key)
+    
+    def use(self, o):
+        tmp = o
+        for key in self.way:
+            if callable(key):
+                tmp = key(tmp)
+            tmp = tmp[key]
+        return tmp

@@ -34,7 +34,6 @@ class ColumnData(basis):
     def __getitem__(self, index):
         return self.data[index]
 
-
 class Table(basis):
     """Contains columns and rows. You can use functions as values and get items by .getsmart, function will be called
     with 3 arguments, link to table object, indexes for row and column. That allows dynamic calculated values, like summary."""
