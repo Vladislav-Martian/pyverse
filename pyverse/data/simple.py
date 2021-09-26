@@ -1,4 +1,4 @@
-__all__ = ["loop", "scope"]
+__all__ = ["loop", "scope", "stack"]
 
 from pyverse.core import basis
 
@@ -62,3 +62,30 @@ class scope(dict, basis):
         return self[key]
 
 
+class stack(list, basis):
+    """Simplest stack realization based on list. Use .push and .pull methods
+    You can use validation function, set with .setvalidation(callback(stack, item))
+    Full list, but with new methods."""
+    validator = None
+
+    def setvalidation(self, callback):
+        self.validator = callback
+        return self
+    
+    def validate(self, value) -> bool:
+        if callable(self.validator):
+            return self.validator(self, value)
+        return True
+
+    def push(self, item):
+        if self.validate(item):
+            return self.append(item)
+        raise ValueError(f"Item blocked by validator, use .append to ignore it. // {item}")
+    
+    def pushes(self, *items):
+        for item in items:
+            return self.push(item)
+    
+    def pull(self):
+        return self.pop()
+    
