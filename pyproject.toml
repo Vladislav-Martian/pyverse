@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "pyverse"
-version = "0.1.0"
-description = ""
+name = "pyversee"
+version = "1.0.1"
+description = "Simple essentials extension library of additions to vanilla python."
 authors = ["Vladislav-Martian <me.as.martian@gmail.com>"]
 
 [tool.poetry.dependencies]
