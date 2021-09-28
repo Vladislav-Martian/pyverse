@@ -1,5 +1,7 @@
 __all__ = ["poslist"]
 
+from pyverse.core import trycall
+
 class poslist(dict):
     """Behaves mostly like default list, but saves positions, allows skipsself. Trigger - value used as «null» for skipping cells"""
 
@@ -7,27 +9,24 @@ class poslist(dict):
         self.next = 0
         if len(values) > 0:
             self.appends(*values, trigger=None)
-    
-    def _updatenext(self, index:int):
-        if index >= self.next:
-            self.next = index + 1
 
-    def _autoupdate(self, index: int):
+    def _autoupdate(self):
         self.next = self._getmaxindex() + 1
 
-    def _getmaxindex(self, index: int):
-        return max(tuple(self.keys()))
+    def _getmaxindex(self):
+        return trycall(max, tuple(self.keys()))[0] or 0
+        
 
     def append(self, value):
         self[self.next] = value
-        self._updatenext(self.next)
+        self._autoupdate()
         return self
     
     def insert(self, value, index: int = None):
         if index == None:
             index = self.next
         self[index] = value
-        self._updatenext(index)
+        self._autoupdate()
         return self
     
     def skip(self):
@@ -56,7 +55,7 @@ class poslist(dict):
         return self[index]
     
     def __setitem__(self, index, value):
-        self._updatenext(index);
+        self._autoupdate();
         return super().__setitem__(index, value)
     
     def __delitem__(self, index):
@@ -68,7 +67,7 @@ class poslist(dict):
     
     def pop(self, key):
         res = super().pop(key)
-        self.autoupdate()
+        self._autoupdate()
         return res
     
     def popitem(self):

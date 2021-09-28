@@ -79,6 +79,7 @@ class smartlist(list):
         for item in self:
             result.append(func(item, i, self))
             i += 1
+        return result
 
     def reducer(self, func: Callable, previnit = None):
         "Reduces list to one result value. Func(prev, value, index, _list)"
@@ -154,12 +155,13 @@ class handle(basis):
     """Line of handlers for an object"""
 
     def __init__(self):
-        super(objectAddress, self).__init__()
+        super().__init__()
         self.way = []
     
     def __call__(self, callback):
         "callback uses one argument, link to current values."
         self.way.append(callback)
+        return self
     
     def use(self, data):
         if isinstance(data, unibox):
@@ -178,7 +180,6 @@ class handle(basis):
                     if not "errors" in box:
                         box["errors"] = []
                     box["errors"].append(e)
-            return box
         return box
 
 
@@ -192,15 +193,18 @@ class objectAddress(basis):
     def __call__(self, callback):
         "callback uses one argument, link to current values."
         self.way.append(callback)
+        return self
     
     def __getitem__(self, key):
         "callback uses one argument, link to current values."
         self.way.append(key)
+        return self
     
     def use(self, o):
         tmp = o
         for key in self.way:
             if callable(key):
                 tmp = key(tmp)
-            tmp = tmp[key]
+            else:
+                tmp = tmp[key]
         return tmp

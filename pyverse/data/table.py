@@ -1,4 +1,4 @@
-__all__ = ["Table", "Rolumn", "Row"]
+__all__ = ["Table", "Column", "Row"]
 
 from pyverse.core import basis
 from pyverse.data.positioned import poslist
@@ -21,6 +21,9 @@ class Column(basis):
     
     def alignSwitch(self):
         self.align *= -1
+    
+    def setdefault(self, default):
+        self.default = default
 
 class Row(poslist, basis):
     "Represents datarow, positioned, based on dict, but behave like list"
@@ -60,6 +63,9 @@ class Table(basis):
     def addheader(self, header: Column):
         self.columns.append(header)
     
+    def adddefaultheader(self, name: str, align: int = 0, default=None):
+        self.columns.append(Column(name, align, default))
+    
     def getrow(self, index: int):
         return self.rows[index]
     
@@ -82,7 +88,7 @@ class Table(basis):
     def delitem(self, row, col):
         return self.setitem(row, col, self.columns[col].default)
     
-    def getsmart(self, row, col):
+    def getdynamic(self, row, col):
         item = self.getitem(row, col)
         return item if not callable(item) else item(self, row, col)
 

@@ -55,6 +55,9 @@ class scope(dict, basis):
             self[name] = value
         super().__setattr__(name, value)
     
+    def clone(self):
+        return scope(super().clone())
+    
     def getDynamic(self, key):
         "if value is callable, returns result of calling it function or method, with scope instance as first arg."
         if callable(self[key]):
@@ -84,8 +87,29 @@ class stack(list, basis):
     
     def pushes(self, *items):
         for item in items:
-            return self.push(item)
+            self.push(item)
+        return self
     
     def pull(self):
         return self.pop()
+    
+    def leftpush(self, item):
+        if self.validate(item):
+            return self.insert(0, item)
+        raise ValueError(
+            f"Item blocked by validator, use .append to ignore it. // {item}")
+
+    def leftpushes(self, *items):
+        for item in items:
+            self.leftpush(item)
+        return self
+
+    def leftpull(self):
+        return self.pop(0)
+    
+    def repr(self, data=None):
+        return " >> ".join(map(str, self))
+    
+    def empty(self) -> bool:
+        return len(self) == 0
     

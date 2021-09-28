@@ -21,4 +21,7 @@ class spider(basis):
             self.worker(struct, dot, box)
         
         return box
+    
+    def use(self, struct):
+        return self.launch(struct)
 

@@ -36,7 +36,7 @@ def w(name: str):
 
 # base class with some modifications
 class basis(object):
-    "Alternative base class"
+    "Alternative base class. Rewrite representation with .repr(self, data=None) method"
 
     def __str__(self, data=None):
         return self.repr(data)
@@ -204,7 +204,7 @@ class OperandHandler(basis):
             self.append(func, op)
         return wrapper
 
-def calloperators(op: Operators):
+def calloperators(op: Operators = Operators.All):
     """Callable decorator, allows function to be called on using it as operand of some operator.exe
     Using:
     @calloperators(Operators.All)
@@ -237,7 +237,7 @@ def functor(func: Callable):
     """
     @wraps(func)
     def wrapper(*args, **kwargs):
-        return func(func, *args, **kwargs)
+        return func(wrapper, *args, **kwargs)
     return wrapper
 
 ##########################################################################

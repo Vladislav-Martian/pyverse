@@ -1,3 +1,5 @@
 # Example files for testing on my machine
 example*.*
 example/
+
+pyproject.toml

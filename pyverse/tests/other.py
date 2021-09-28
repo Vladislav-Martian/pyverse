@@ -1,4 +1,4 @@
-__all__ = ["hashable", "haskey", "isand", "isor", "eqand", "eqor"]
+__all__ = ["hashable", "haskey", "isand", "isor", "eqand", "eqor", "haslen"]
 
 from typing import overload
 

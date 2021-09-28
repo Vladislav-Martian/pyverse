@@ -1,4 +1,4 @@
-from pyverse.pipeline.DataCell import dcell
+from pyverse.pipeline.datacell import dcell
 from typing import Callable
 from pyverse.core import basis
 
@@ -73,4 +73,7 @@ class router(basis):
         #============================
         while not cell.stopped and handler != None:
             handler = self._step(cell, handler)
+    
+    def __call__(self, cell: dcell):
+        return self.launch(cell)
         
