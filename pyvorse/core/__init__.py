@@ -1,7 +1,7 @@
 __all__ = ['attribute', 'w', 'basis', 'throws', 'isthrows',
            'trycall', 'Operators', 'calloperators', 'functor', 'reprint', "safe", "copyAllProps"]
 
-from typing import Callable, overload
+from typing import Callable
 from enum import IntFlag, auto
 from functools import wraps
 ########################################################################
@@ -74,12 +74,8 @@ class basis(object):
     def __hash__(self):
         return id(self)
 
-    @overload
-    def getAttribute(self, name: str):
-        return getattr(self, name)
-
-    @overload
-    def getAttribute(self, name: str, default: None):
+    def getAttribute(self, name: str, default = None):
+        "Safely access attribute"
         return getattr(self, name, default)
 
 
