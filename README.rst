@@ -1,5 +1,5 @@
 
-pyverse
+pyvorse
 =======
 
 Simple essentials extension library of additions to vanilla python.

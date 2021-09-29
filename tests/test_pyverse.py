@@ -1,12 +1,12 @@
-from pyverse.data.positioned import poslist
+from pyvorse.data.positioned import poslist
 from unittest.runner import TextTestResult
-from pyverse import __version__
+from pyvorse import __version__
 from unittest import TestCase, main
-from pyverse.core import *
-from pyverse.data import *
-from pyverse.mathematics import *
-from pyverse.tests import *
-from pyverse.pipeline import *
+from pyvorse.core import *
+from pyvorse.data import *
+from pyvorse.mathematics import *
+from pyvorse.tests import *
+from pyvorse.pipeline import *
 
 
 class TestCore(TestCase):

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pyverse"
+name = "pyvorse"
 version = "1.0.1"
 description = "Simple essentials extension library of additions to vanilla python."
 authors = ["Vladislav-Martian <me.as.martian@gmail.com>"]
